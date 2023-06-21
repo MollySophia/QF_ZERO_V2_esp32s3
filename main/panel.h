@@ -1,5 +1,5 @@
-#ifndef _DISPLAY_H
-#define _DISPLAY_H
+#ifndef _PANEL_H
+#define _PANEL_H
 
 #include "esp_err.h"
 
@@ -25,8 +25,12 @@ extern "C" {
 #define LCD_PIN_NUM_DATA6 (3)
 #define LCD_PIN_NUM_DATA7 (9)
 
-esp_err_t display_init(esp_lcd_panel_handle_t *panel_handle, esp_lcd_panel_io_handle_t *io_handle);
+#define TP_PIN_NUM_SDA    (15)
+#define TP_PIN_NUM_SCL    (16)
+#define TP_PIN_NUM_INT    (17)
 
+esp_err_t display_init(esp_lcd_panel_handle_t *panel_handle, esp_lcd_panel_io_handle_t *io_handle);
+esp_err_t touch_init(esp_lcd_touch_handle_t *touch_handle, esp_lcd_panel_io_handle_t *io_handle);
 
 #ifdef __cplusplus
 }

@@ -44,6 +44,7 @@
     "esp_log.h": "c",
     "array": "c",
     "string": "c",
-    "string_view": "c"
+    "string_view": "c",
+    "compare": "c"
   }
 }

@@ -12,12 +12,13 @@
 #include "esp_log.h"
 #include "lvgl.h"
 #include "esp_lvgl_port.h"
-#include "display.h"
+#include "panel.h"
 
 #include "lv_demos.h"
 
 #define LVGL_TICK_PERIOD_MS 2
 static const char *TAG = "main";
+lv_disp_t *disp = NULL;
 
 void app_main(void)
 {
@@ -44,8 +45,9 @@ void app_main(void)
     esp_lcd_panel_io_handle_t io_handle = NULL;
     display_init(&panel_handle, &io_handle);
 
-    ESP_LOGI(TAG, "Turn on LCD backlight");
-    gpio_set_level(LCD_PIN_NUM_PWM_BL, 1);
+    esp_lcd_touch_handle_t touch_handle = NULL;
+    esp_lcd_panel_io_handle_t tp_io_handle = NULL;
+    touch_init(&touch_handle, &tp_io_handle);
 
     ESP_LOGI(TAG, "Initialize LVGL library");
     
@@ -67,10 +69,19 @@ void app_main(void)
             .buff_dma = true,
         }
     };
-    lvgl_port_add_disp(&disp_cfg);
+    disp = lvgl_port_add_disp(&disp_cfg);
+
+    const lvgl_port_touch_cfg_t touch_cfg = {
+        .disp = disp,
+        .handle = touch_handle,
+    };
+    lv_indev_t* lv_touch_handle = lvgl_port_add_touch(&touch_cfg);
 
     ESP_LOGI(TAG, "Display LVGL animation");
     lvgl_port_lock(0);
     lv_demo_music();
     lvgl_port_unlock();
+
+    ESP_LOGI(TAG, "Turn on LCD backlight");
+    gpio_set_level(LCD_PIN_NUM_PWM_BL, 1);
 }

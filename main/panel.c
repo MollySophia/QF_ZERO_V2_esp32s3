@@ -5,10 +5,13 @@
 #include "esp_lcd_panel_gc9a01.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_commands.h"
+#include "esp_lcd_touch.h"
+#include "esp_lcd_touch_cst816s.h"
+#include "driver/i2c.h"
 #include "esp_log.h"
-#include "display.h"
+#include "panel.h"
 
-static const char *TAG = "display";
+static const char *TAG = "panel";
 
 esp_err_t display_init(esp_lcd_panel_handle_t *panel_handle, esp_lcd_panel_io_handle_t *io_handle) {
     esp_lcd_i80_bus_handle_t i80_bus = NULL;
@@ -62,4 +65,41 @@ esp_err_t display_init(esp_lcd_panel_handle_t *panel_handle, esp_lcd_panel_io_ha
     ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(*panel_handle, true));
 
     return ESP_OK;
+}
+
+esp_err_t touch_init(esp_lcd_touch_handle_t *touch_handle, esp_lcd_panel_io_handle_t *io_handle) {
+    i2c_config_t i2c_conf = {
+        .mode = I2C_MODE_MASTER,
+        .sda_io_num = TP_PIN_NUM_SDA,
+        .scl_io_num = TP_PIN_NUM_SCL,
+        .sda_pullup_en = GPIO_PULLUP_DISABLE,
+        .scl_pullup_en = GPIO_PULLUP_DISABLE,
+        .master.clk_speed = 400*1000
+    };
+    ESP_ERROR_CHECK(i2c_param_config(0, &i2c_conf));
+    ESP_ERROR_CHECK(i2c_driver_install(0, I2C_MODE_MASTER, 0, 0, 0));
+
+    esp_lcd_panel_io_i2c_config_t io_config = 
+        ESP_LCD_TOUCH_IO_I2C_CST816S_CONFIG();
+    ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c((esp_lcd_i2c_bus_handle_t)0, &io_config, io_handle));
+
+    esp_lcd_touch_config_t tp_cfg = {
+        .x_max = LCD_H_RES,
+        .y_max = LCD_V_RES,
+        .rst_gpio_num = -1,
+        .int_gpio_num = TP_PIN_NUM_INT,
+        .levels = {
+            .reset = 0,
+            .interrupt = 0,
+        },
+        .flags = {
+            .swap_xy = 0,
+            .mirror_x = 1,
+            .mirror_y = 0,
+        },
+    };
+
+    assert(touch_handle);
+    assert(io_handle);
+    return esp_lcd_touch_new_i2c_cst816s(*io_handle, &tp_cfg, touch_handle);
 }
