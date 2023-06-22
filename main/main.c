@@ -14,7 +14,7 @@
 #include "esp_lvgl_port.h"
 #include "panel.h"
 
-#include "lv_demos.h"
+#include "main_ui.h"
 
 #define LVGL_TICK_PERIOD_MS 2
 static const char *TAG = "main";
@@ -79,7 +79,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Display LVGL animation");
     lvgl_port_lock(0);
-    lv_demo_music();
+    main_ui_create();
     lvgl_port_unlock();
 
     ESP_LOGI(TAG, "Turn on LCD backlight");
