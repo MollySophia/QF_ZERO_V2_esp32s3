@@ -13,6 +13,7 @@
 #include "lvgl.h"
 #include "esp_lvgl_port.h"
 #include "panel.h"
+#include "board.h"
 
 #include "main_ui.h"
 
@@ -22,6 +23,8 @@ lv_disp_t *disp = NULL;
 
 void app_main(void)
 {
+    board_init();
+
     const lvgl_port_cfg_t lvgl_cfg = ESP_LVGL_PORT_INIT_CONFIG();
     ESP_ERROR_CHECK(lvgl_port_init(&lvgl_cfg));
 
