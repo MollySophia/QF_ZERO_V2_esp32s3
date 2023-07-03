@@ -14,8 +14,13 @@
 #include "esp_lvgl_port.h"
 #include "panel.h"
 #include "board.h"
+#include "mooncake.h"
 
 #include "main_ui.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define LVGL_TICK_PERIOD_MS 2
 static const char *TAG = "main";
@@ -29,16 +34,16 @@ void app_main(void)
     ESP_ERROR_CHECK(lvgl_port_init(&lvgl_cfg));
 
     gpio_config_t lcd_en_gpio_config = {
-        .mode = GPIO_MODE_OUTPUT,
         .pin_bit_mask = 1ULL << LCD_PIN_NUM_EN,
+        .mode = GPIO_MODE_OUTPUT,
     };
     ESP_ERROR_CHECK(gpio_config(&lcd_en_gpio_config));
     gpio_set_level(LCD_PIN_NUM_EN, 0);
 
     ESP_LOGI(TAG, "Turn off LCD backlight");
     gpio_config_t bk_gpio_config = {
-        .mode = GPIO_MODE_OUTPUT,
         .pin_bit_mask = 1ULL << LCD_PIN_NUM_PWM_BL,
+        .mode = GPIO_MODE_OUTPUT,
     };
     ESP_ERROR_CHECK(gpio_config(&bk_gpio_config));
     gpio_set_level(LCD_PIN_NUM_PWM_BL, 0);
@@ -88,3 +93,7 @@ void app_main(void)
     ESP_LOGI(TAG, "Turn on LCD backlight");
     gpio_set_level(LCD_PIN_NUM_PWM_BL, 1);
 }
+
+#ifdef __cplusplus
+}
+#endif

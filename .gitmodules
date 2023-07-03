@@ -7,3 +7,9 @@
 [submodule "simulator/lvgl"]
 	path = simulator/lvgl
 	url = https://github.com/lvgl/lvgl
+[submodule "components/ArduinoJson"]
+	path = components/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson
+[submodule "components/mooncake"]
+	path = components/mooncake
+	url = https://github.com/Forairaaaaa/mooncake

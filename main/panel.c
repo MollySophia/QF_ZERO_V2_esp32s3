@@ -10,6 +10,7 @@
 #include "driver/i2c.h"
 #include "esp_log.h"
 #include "panel.h"
+#include "board.h"
 
 static const char *TAG = "panel";
 
