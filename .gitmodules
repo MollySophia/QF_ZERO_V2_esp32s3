@@ -1,9 +1,6 @@
 [submodule "simulator/lv_drivers"]
 	path = simulator/lv_drivers
 	url = https://github.com/lvgl/lv_drivers.git
-[submodule "simulator/lv_examples"]
-	path = simulator/lv_examples
-	url = https://github.com/lvgl/lv_examples
 [submodule "simulator/lvgl"]
 	path = simulator/lvgl
 	url = https://github.com/lvgl/lvgl
@@ -12,4 +9,4 @@
 	url = https://github.com/bblanchon/ArduinoJson
 [submodule "components/mooncake"]
 	path = components/mooncake
-	url = https://github.com/Forairaaaaa/mooncake
+	url = https://github.com/MollySophia/mooncake.git

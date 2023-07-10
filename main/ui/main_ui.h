@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 void main_ui_create();
+void main_ui_update();
 
 #ifdef __cplusplus
 }
