@@ -274,50 +274,50 @@ static esp_err_t panel_gc9a01_draw_bitmap(esp_lcd_panel_t *panel, int x_start, i
 
 static esp_err_t panel_gc9a01_invert_color(esp_lcd_panel_t *panel, bool invert_color_data)
 {
-    // gc9a01_panel_t *gc9a01 = __containerof(panel, gc9a01_panel_t, base);
-    // esp_lcd_panel_io_handle_t io = gc9a01->io;
-    // int command = 0;
-    // if (invert_color_data) {
-    //     command = LCD_CMD_INVON;
-    // } else {
-    //     command = LCD_CMD_INVOFF;
-    // }
-    // esp_lcd_panel_io_tx_param(io, command, NULL, 0);
+    gc9a01_panel_t *gc9a01 = __containerof(panel, gc9a01_panel_t, base);
+    esp_lcd_panel_io_handle_t io = gc9a01->io;
+    int command = 0;
+    if (invert_color_data) {
+        command = LCD_CMD_INVON;
+    } else {
+        command = LCD_CMD_INVOFF;
+    }
+    esp_lcd_panel_io_tx_param(io, command, NULL, 0);
     return ESP_OK;
 }
 
 static esp_err_t panel_gc9a01_mirror(esp_lcd_panel_t *panel, bool mirror_x, bool mirror_y)
 {
-    // gc9a01_panel_t *gc9a01 = __containerof(panel, gc9a01_panel_t, base);
-    // esp_lcd_panel_io_handle_t io = gc9a01->io;
-    // if (mirror_x) {
-    //     gc9a01->madctl_val |= LCD_CMD_MX_BIT;
-    // } else {
-    //     gc9a01->madctl_val &= ~LCD_CMD_MX_BIT;
-    // }
-    // if (mirror_y) {
-    //     gc9a01->madctl_val |= LCD_CMD_MY_BIT;
-    // } else {
-    //     gc9a01->madctl_val &= ~LCD_CMD_MY_BIT;
-    // }
-    // esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t[]) {
-    //     gc9a01->madctl_val
-    // }, 1);
+    gc9a01_panel_t *gc9a01 = __containerof(panel, gc9a01_panel_t, base);
+    esp_lcd_panel_io_handle_t io = gc9a01->io;
+    if (mirror_x) {
+        gc9a01->madctl_val |= LCD_CMD_MX_BIT;
+    } else {
+        gc9a01->madctl_val &= ~LCD_CMD_MX_BIT;
+    }
+    if (mirror_y) {
+        gc9a01->madctl_val |= LCD_CMD_MY_BIT;
+    } else {
+        gc9a01->madctl_val &= ~LCD_CMD_MY_BIT;
+    }
+    esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t[]) {
+        gc9a01->madctl_val
+    }, 1);
     return ESP_OK;
 }
 
 static esp_err_t panel_gc9a01_swap_xy(esp_lcd_panel_t *panel, bool swap_axes)
 {
-    // gc9a01_panel_t *gc9a01 = __containerof(panel, gc9a01_panel_t, base);
-    // esp_lcd_panel_io_handle_t io = gc9a01->io;
-    // if (swap_axes) {
-    //     gc9a01->madctl_val |= LCD_CMD_MV_BIT;
-    // } else {
-    //     gc9a01->madctl_val &= ~LCD_CMD_MV_BIT;
-    // }
-    // esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t[]) {
-    //     gc9a01->madctl_val
-    // }, 1);
+    gc9a01_panel_t *gc9a01 = __containerof(panel, gc9a01_panel_t, base);
+    esp_lcd_panel_io_handle_t io = gc9a01->io;
+    if (swap_axes) {
+        gc9a01->madctl_val |= LCD_CMD_MV_BIT;
+    } else {
+        gc9a01->madctl_val &= ~LCD_CMD_MV_BIT;
+    }
+    esp_lcd_panel_io_tx_param(io, LCD_CMD_MADCTL, (uint8_t[]) {
+        gc9a01->madctl_val
+    }, 1);
     return ESP_OK;
 }
 

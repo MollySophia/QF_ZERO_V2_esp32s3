@@ -144,29 +144,29 @@ namespace MOONCAKE {
 
         void Launcher::updateInfos()
         {
-            // /* Update time */
-            // if (getDatabase()->Get(MC_TIME)->addr != nullptr) {
-            //     /* Hour */
-            //     snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().hour);
-            //     lv_label_set_text(_data.infoClockHour, _data.infoUpdateBuffer);
-            //     /* Min */
-            //     snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().min);
-            //     lv_label_set_text(_data.infoClockMin, _data.infoUpdateBuffer);
-            // }
+            /* Update time */
+            if (getDatabase()->Get(MC_TIME)->addr != nullptr) {
+                /* Hour */
+                snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().hour);
+                lv_label_set_text(_data.infoClockHour, _data.infoUpdateBuffer);
+                /* Min */
+                snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%.2d", getDatabase()->Get(MC_TIME)->value<DataTime_t>().min);
+                lv_label_set_text(_data.infoClockMin, _data.infoUpdateBuffer);
+            }
 
-            // /* Update Battery */
-            // if (getDatabase()->Get(MC_BATTERY_LEVEL)->addr != nullptr) {
-            //     /* Level */
-            //     snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%d%%", getDatabase()->Get(MC_BATTERY_LEVEL)->value<uint8_t>());
-            //     lv_label_set_text(_data.infoBatLevel, _data.infoUpdateBuffer);
-            // }
+            /* Update Battery */
+            if (getDatabase()->Get(MC_BATTERY_LEVEL)->addr != nullptr) {
+                /* Level */
+                snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%d%%", getDatabase()->Get(MC_BATTERY_LEVEL)->value<uint8_t>());
+                lv_label_set_text(_data.infoBatLevel, _data.infoUpdateBuffer);
+            }
 
-            // /* Update step counter */
-            // if (getDatabase()->Get(MC_STEPS)->addr != nullptr) {
-            //     /* Level */
-            //     snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%ld steps!", getDatabase()->Get(MC_STEPS)->value<uint32_t>());
-            //     lv_label_set_text(_data.infoStepCounter, _data.infoUpdateBuffer);
-            // }
+            /* Update step counter */
+            if (getDatabase()->Get(MC_STEPS)->addr != nullptr) {
+                /* Level */
+                snprintf(_data.infoUpdateBuffer, sizeof(_data.infoUpdateBuffer), "%ld\nsteps", getDatabase()->Get(MC_STEPS)->value<uint32_t>());
+                lv_label_set_text(_data.infoStepCounter, _data.infoUpdateBuffer);
+            }
         }
 
 
@@ -364,7 +364,7 @@ namespace MOONCAKE {
 
             /* Clock */
             _data.infoClockHour = lv_label_create(_data.infoPanel);
-            lv_obj_set_x(_data.infoClockHour, lv_pct(-25));
+            lv_obj_set_x(_data.infoClockHour, lv_pct(-18));
             lv_obj_set_y(_data.infoClockHour, lv_pct(-23));
             lv_obj_set_align(_data.infoClockHour, LV_ALIGN_CENTER);
             lv_label_set_text(_data.infoClockHour, "23");
@@ -372,7 +372,7 @@ namespace MOONCAKE {
             lv_obj_set_style_text_font(_data.infoClockHour, &ui_font_OpenSansMedium96, LV_PART_MAIN | LV_STATE_DEFAULT);
             
             _data.infoClockMin = lv_label_create(_data.infoPanel);
-            lv_obj_set_x(_data.infoClockMin, lv_pct(-25));
+            lv_obj_set_x(_data.infoClockMin, lv_pct(-18));
             lv_obj_set_y(_data.infoClockMin, lv_pct(27));
             lv_obj_set_align(_data.infoClockMin, LV_ALIGN_CENTER);
             lv_label_set_text(_data.infoClockMin, "32");
@@ -382,8 +382,8 @@ namespace MOONCAKE {
 
             /* Step number */
             _data.infoStepCounter = lv_label_create(_data.infoPanel);
-            lv_obj_set_x(_data.infoStepCounter, lv_pct(30));
-            lv_obj_set_y(_data.infoStepCounter, lv_pct(32));
+            lv_obj_set_x(_data.infoStepCounter, lv_pct(27));
+            lv_obj_set_y(_data.infoStepCounter, lv_pct(30));
             lv_obj_set_align(_data.infoStepCounter, LV_ALIGN_CENTER);
             lv_label_set_text(_data.infoStepCounter, "2366\nsteps!");
             lv_obj_set_style_text_color(_data.infoStepCounter, lv_color_hex(0xBEBEBE), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -398,8 +398,8 @@ namespace MOONCAKE {
             lv_obj_set_align(_data.infoBatIcon, LV_ALIGN_CENTER);
 
             _data.infoBatLevel = lv_label_create(_data.infoPanel);
-            lv_obj_set_x(_data.infoBatLevel, lv_pct(40));
-            lv_obj_set_y(_data.infoBatLevel, lv_pct(-37));
+            lv_obj_set_x(_data.infoBatLevel, lv_pct(22));
+            lv_obj_set_y(_data.infoBatLevel, lv_pct(-24));
             lv_obj_set_align(_data.infoBatLevel, LV_ALIGN_CENTER);
             lv_label_set_text(_data.infoBatLevel, "96%");
             lv_obj_set_style_text_color(_data.infoBatLevel, lv_color_hex(0xBEBEBE), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -410,7 +410,7 @@ namespace MOONCAKE {
             _data.infoWifiIcon = lv_img_create(_data.infoPanel);
             lv_img_set_src(_data.infoWifiIcon, &ui_img_icon_wifi_off_png);
             lv_obj_set_x(_data.infoWifiIcon, lv_pct(18));
-            lv_obj_set_y(_data.infoWifiIcon, lv_pct(-15));
+            lv_obj_set_y(_data.infoWifiIcon, lv_pct(-5));
             lv_obj_set_align(_data.infoWifiIcon, LV_ALIGN_CENTER);
 
 
@@ -418,16 +418,16 @@ namespace MOONCAKE {
             _data.infoBleIcon = lv_img_create(_data.infoPanel);
             lv_img_set_src(_data.infoBleIcon, &ui_img_icon_ble_off_png);
             lv_obj_set_x(_data.infoBleIcon, lv_pct(33));
-            lv_obj_set_y(_data.infoBleIcon, lv_pct(-15));
+            lv_obj_set_y(_data.infoBleIcon, lv_pct(-5));
             lv_obj_set_align(_data.infoBleIcon, LV_ALIGN_CENTER);
 
 
             /* Notification */
-            _data.infoNoteIcon = lv_img_create(_data.infoPanel);
-            lv_img_set_src(_data.infoNoteIcon, &ui_img_icon_note_on_png);
-            lv_obj_set_x(_data.infoNoteIcon, lv_pct(48));
-            lv_obj_set_y(_data.infoNoteIcon, lv_pct(-15));
-            lv_obj_set_align(_data.infoNoteIcon, LV_ALIGN_CENTER);
+            // _data.infoNoteIcon = lv_img_create(_data.infoPanel);
+            // lv_img_set_src(_data.infoNoteIcon, &ui_img_icon_note_on_png);
+            // lv_obj_set_x(_data.infoNoteIcon, lv_pct(48));
+            // lv_obj_set_y(_data.infoNoteIcon, lv_pct(-5));
+            // lv_obj_set_align(_data.infoNoteIcon, LV_ALIGN_CENTER);
         }
 
 

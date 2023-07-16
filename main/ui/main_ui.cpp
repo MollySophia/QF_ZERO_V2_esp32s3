@@ -10,6 +10,9 @@
 #include "apps/launcher/launcher.h"
 #include "main_ui.h"
 
+#define DISPLAY_H_RES 240
+#define DISPLAY_V_RES 240
+
 MOONCAKE::Mooncake mooncake;
 MOONCAKE::LAUNCHER::Launcher* launcher = new MOONCAKE::LAUNCHER::Launcher;
 
@@ -18,7 +21,7 @@ void main_ui_create() {
     MOONCAKE::FrameworkConfig_t config = mooncake.config();
     config.playBootAnim = false;
     mooncake.config(config);
-    mooncake.setDisplay(240, 240);
+    mooncake.setDisplay(DISPLAY_H_RES, DISPLAY_V_RES);
     mooncake.setLauncher(launcher);
     mooncake.init();
     mooncake.installBuiltinApps();

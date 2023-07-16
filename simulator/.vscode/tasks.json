@@ -6,7 +6,7 @@
 			"label": "Build",
 			"command": "make",
 			"options": {
-				"cwd": "${workspaceFolder}"
+				"cwd": "${workspaceFolder}/build"
 			},
 			"presentation": {
                 "echo": true,

@@ -19,6 +19,8 @@
 #include "main_ui.h"
 
 static void hal_init(void);
+lv_draw_mask_radius_param_t mask_param;
+lv_area_t mask_area = {0, 0, 240, 240};
 
 int main(int argc, char **argv)
 {
@@ -32,9 +34,11 @@ int main(int argc, char **argv)
   hal_init();
 
   main_ui_create();
-
+  lv_draw_mask_radius_init(&mask_param, &mask_area, 120, false);
+  static int16_t mask_id = lv_draw_mask_add(&mask_param, NULL);
   while (1) {
     main_ui_update();
+    lv_draw_mask_radius_init(&mask_param, &mask_area, 120, false);
     lv_timer_handler();
 
     usleep(5 * 1000);

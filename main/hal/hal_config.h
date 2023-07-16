@@ -1,11 +1,5 @@
-#ifndef _BOARD_H
-#define _BOARD_H
+#pragma once
 
-#include "driver/gpio.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define TXD_HC32_PIN_NUM GPIO_NUM_1
 #define RXD_HC32_PIN_NUM GPIO_NUM_2
@@ -46,12 +40,3 @@ extern "C" {
 #define TP_PIN_NUM_SDA    GPIO_NUM_15
 #define TP_PIN_NUM_SCL    GPIO_NUM_16
 #define TP_PIN_NUM_INT    GPIO_NUM_17
-
-void hc32_uart_init(void);
-void board_init(void);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
