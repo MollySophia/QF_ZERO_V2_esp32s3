@@ -30,11 +30,13 @@ namespace MOONCAKE {
             /* Pressed feedback */
             else if (code == LV_EVENT_PRESSED) {
                 /* If pressed, smaller Icon */
-                lv_img_set_zoom(lv_event_get_target(e), lv_img_get_zoom(lv_event_get_target(e)) - 10);
+                // lv_img_set_zoom(lv_event_get_target(e), lv_img_get_zoom(lv_event_get_target(e)) - 10);
+                lv_obj_set_style_transform_zoom(lv_event_get_target(e), lv_obj_get_style_transform_zoom(lv_event_get_target(e), LV_PART_ANY) - 10, LV_PART_ANY);
             }
             else if (code == LV_EVENT_RELEASED) {
                 /* If released, set it back */
-                lv_img_set_zoom(lv_event_get_target(e), lv_img_get_zoom(lv_event_get_target(e)) + 10);
+                // lv_img_set_zoom(lv_event_get_target(e), lv_img_get_zoom(lv_event_get_target(e)) + 10);
+                lv_obj_set_style_transform_zoom(lv_event_get_target(e), lv_obj_get_style_transform_zoom(lv_event_get_target(e), LV_PART_ANY) + 10, LV_PART_ANY);
             }
 
             /* App infos */
@@ -100,7 +102,8 @@ namespace MOONCAKE {
                     }
                 }
                 /* Set zoom */
-                lv_img_set_zoom(lv_obj_get_child(_data.appPanel, i), icon_zoom);
+                // lv_img_set_zoom(lv_obj_get_child(_data.appPanel, i), icon_zoom);
+                lv_obj_set_style_transform_zoom(lv_obj_get_child(_data.appPanel, i), icon_zoom, LV_PART_ANY);
             }
 
             #else
@@ -135,7 +138,8 @@ namespace MOONCAKE {
                     }
                 }
                 /* Set zoom */
-                lv_img_set_zoom(lv_obj_get_child(_data.appPanel, i), icon_zoom);
+                // lv_img_set_zoom(lv_obj_get_child(_data.appPanel, i), icon_zoom);
+                lv_obj_set_style_transform_zoom(lv_obj_get_child(_data.appPanel, i), icon_zoom, LV_PART_ANY);
             }
 
             #endif
@@ -203,32 +207,10 @@ namespace MOONCAKE {
             
             lv_obj_add_event_cb(_data.appPanel, _lvgl_event_cb, LV_EVENT_SCROLL, (void*)this);
 
-
-            /**
-             * @brief App bubble pool
-             * 
-             */
-
-            /* Update bubble config */
-            _bubble_cfg.iconColMax = _data.appPanelHor / USING_ICON.header.w;
-            _bubble_cfg.iconRowMax = _data.appPanelVer / USING_ICON.header.h;
-            _bubble_cfg.iconColNum = (_framework->getAppNum() - 1) / _bubble_cfg.iconRowMax;
-            if (((_framework->getAppNum() - 1) % _bubble_cfg.iconRowMax) != 0) {
-                _bubble_cfg.iconColNum++;
-            }
-            _bubble_cfg.iconSpaceX = _data.appPanelHor / _bubble_cfg.iconColMax;
-            lv_coord_t gap_between_icon = (_data.appPanelHor - USING_ICON.header.w * _bubble_cfg.iconColMax) / (_bubble_cfg.iconColMax + 1);
-            _bubble_cfg.iconSpaceY = USING_ICON.header.h - (gap_between_icon / 2);
-            _bubble_cfg.iconXoffset = -(_data.appPanelHor / 2) + (_bubble_cfg.iconSpaceX / 2);
-            _bubble_cfg.iconYoffset = -(_data.appPanelVer / 2) + (_bubble_cfg.iconSpaceY / 2) + gap_between_icon;
-
-
             int icon_x = 0;
-            int icon_y = 0;
-            /* Long row first */
-            bool is_long_row = true;
+            int icon_y = -80;
 
-            /* Put App Icon into bubble pool */
+            /* Put App Icon into scroll list */
             for (auto i : _framework->getAppList()) {
                 /* If is launcher */
                 if (i.app == this) {
@@ -236,93 +218,38 @@ namespace MOONCAKE {
                 }
 
                 /* Create a object */
-                lv_obj_t* app = lv_img_create(_data.appPanel);
+                // lv_obj_t* app = lv_img_create(_data.appPanel);
+                lv_obj_t* app = lv_obj_create(_data.appPanel);
                 lv_obj_center(app);
+                lv_obj_set_size(app, 200, 40);
 
                 /* If App Icon is not set, use default */
-                if (i.app->getAppIcon() == nullptr) {
-                    lv_img_set_src(app, &USING_ICON);
-                }
-                else {
-                    lv_img_set_src(app, i.app->getAppIcon());
-                }
+                // if (i.app->getAppIcon() == nullptr) {
+                //     lv_img_set_src(app, &USING_ICON);
+                // }
+                // else {
+                //     lv_img_set_src(app, i.app->getAppIcon());
+                // }
+                lv_obj_t* label = lv_label_create(app);
+                lv_obj_center(label);
+                lv_label_set_text(label, i.app->getAppName().c_str());
 
-
-
-                /**
-                 * @brief Vertical
-                 * 
-                 */
-                #if SCROLL_VER
-
-                /* Put App in hexagon mesh */
-                if (!is_long_row) {
-                    lv_obj_set_pos(app, icon_x + _bubble_cfg.iconSpaceX / 2 + _bubble_cfg.iconXoffset, icon_y + _bubble_cfg.iconYoffset);
-                }
-                else {
-                    lv_obj_set_pos(app, icon_x + _bubble_cfg.iconXoffset, icon_y + _bubble_cfg.iconYoffset);
-                }
-
-                /* Go to next col */
-                icon_x += _bubble_cfg.iconSpaceX;
-
-                /* Go to next more Apps row */
-                if (!is_long_row && ((icon_x / _bubble_cfg.iconSpaceX) >= (_bubble_cfg.iconColMax - 1))) {
-                    is_long_row = true;
-                    icon_x = 0;
-                    icon_y += _bubble_cfg.iconSpaceY;
-                }
-                /* Go to next less Apps row */
-                else if (is_long_row && ((icon_x / _bubble_cfg.iconSpaceX) >= _bubble_cfg.iconColMax)) { 
-                    is_long_row = false;
-                    icon_x = 0;
-                    icon_y += _bubble_cfg.iconSpaceY;
-                }
-
-                /**
-                 * @brief Horizontal
-                 * 
-                 */
-                #else
-
-                /* Put App in hexagon mesh */
-                if (!is_long_row) {
-                    lv_obj_set_pos(app, icon_x + _bubble_cfg.iconSpaceX / 2 + _bubble_cfg.iconXoffset, icon_y + _bubble_cfg.iconYoffset);
-                }
-                else {
-                    lv_obj_set_pos(app, icon_x + _bubble_cfg.iconXoffset, icon_y + _bubble_cfg.iconYoffset);
-                }
-
-                /* Go to next col */
-                icon_x += _bubble_cfg.iconSpaceX;
-
-                /* Next row */
-                if ((icon_x / _bubble_cfg.iconSpaceX) >= _bubble_cfg.iconColNum) {
-                    is_long_row = is_long_row ? false : true;
-                    printf("%d\n", is_long_row);
-                    icon_x = 0;
-                    icon_y += _bubble_cfg.iconSpaceY;
-                }
-
-                #endif
-
+                lv_obj_set_pos(app, 0, icon_y);
+                icon_y += 50;
 
                 /* Set App pointer as user data */
                 lv_obj_set_user_data(app, (void*)i.app);
                 
                 /* Add event callback */
                 lv_obj_add_flag(app, LV_OBJ_FLAG_CLICKABLE);
+                lv_obj_set_style_radius(app, 20, LV_PART_MAIN);
                 lv_obj_set_style_img_recolor(app, lv_color_hex(0x000000), LV_STATE_PRESSED);
-                lv_obj_set_style_img_recolor_opa(app, 50, LV_STATE_PRESSED);
+                lv_obj_set_style_bg_img_recolor_opa(app, 50, LV_STATE_PRESSED);
                 lv_obj_add_event_cb(app, _lvgl_event_cb, LV_EVENT_ALL, (void*)_framework);
             }
 
             /* Hit an event to update icon zoom once */
-            #if SCROLL_VER
             lv_obj_scroll_to_y(_data.appPanel, 1, LV_ANIM_OFF);
-            #else
-            lv_obj_scroll_to_x(_data.appPanel, 1, LV_ANIM_OFF);
-            #endif
         }
 
 

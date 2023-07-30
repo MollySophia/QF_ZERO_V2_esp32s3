@@ -57,18 +57,6 @@ namespace MOONCAKE {
             char infoUpdateBuffer[24];
         };
 
-
-        struct BubbleConfig_t {
-            lv_coord_t iconColMax = 0;
-            lv_coord_t iconColNum = 0;
-            lv_coord_t iconRowMax = 0;
-            lv_coord_t iconSpaceX = 0;
-            lv_coord_t iconSpaceY = 0;
-            lv_coord_t iconXoffset = 0;
-            lv_coord_t iconYoffset = 0;
-        };
-
-    
         class Launcher : public APP_BASE {
             private:
                 LauncherConfig_t _config;
@@ -77,7 +65,6 @@ namespace MOONCAKE {
 
                 /* Lvgl */
                 LauncherData_t _data;
-                BubbleConfig_t _bubble_cfg;
                 static void _lvgl_event_cb(lv_event_t* e);
                 void _create_app_panel();
                 void _create_info_panel();
