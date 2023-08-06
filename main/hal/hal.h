@@ -10,11 +10,10 @@
  */
 #pragma once
 #include "button/Button.h"
-#include "buzzer/hal_buzzer.hpp"
 #include "disp/hal_disp.hpp"
 #include "lvgl/hal_lvgl.hpp"
 #include "power/hal_power.hpp"
-#include "rtc/hal_rtc.hpp"
+#include "hc32/hc32.hpp"
 #include "tp/hal_tp.hpp"
 #include "hal_config.h"
 
@@ -41,24 +40,12 @@ class HAL {
 
         /* Fuel gauge*/
         CW2015::CW2015 pmu;
-
-        /* RTC PCF8563 */
-        // PCF8563::PCF8563 rtc;
-
-        /* SD card */
-        // SD_CARD::SD_Card sd;
-
-        /* Buttons */
         Button btn = Button(KEY_INPUT_PIN_NUM);
-        /* Buzzer */
-        // BUZZER::BUZZER buzz;
-
-        /* IMU BMM270 + BMM150 */
-        // BMI270::BMI270 imu;
 
         /* Lvgl */
         LVGL::LVGL lvgl;
 
+        HC32::HC32 hc32;
 
         /**
          * @brief Hal init 
